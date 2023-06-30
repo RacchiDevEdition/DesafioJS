@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.DesafioJS.dto.ClientDto;
 import com.DesafioJS.entities.enums.ClientGender;
+import com.DesafioJS.entities.enums.ClientPriority;
+import com.DesafioJS.entities.enums.ClientRegion;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,6 +15,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,16 +27,29 @@ public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Enumerated(EnumType.STRING)
-	public ClientPriorityClass priority;
-	
+	public ClientPriority priority;
+
 	@Enumerated(EnumType.STRING)
 	private ClientGender gender;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "tb_clientName")
 	private ClientName name;
+	
+	@Enumerated(EnumType.STRING)
+	private ClientRegion region;
+
+	@ManyToOne
+	@JoinColumn(name = "tb_clientLocation")
 	private ClientLocation location;
+
+	@ManyToOne
+	@JoinColumn(name = "tb_clientCoordinates")
 	private ClientCoordinates coordinates;
+	@ManyToOne
+	@JoinColumn(name = "tb_clientTimeZone")
 	public ClientTimeZone clientTimeZone;
 	private String email;
 	private Instant birthday;
@@ -40,9 +58,9 @@ public class Client implements Serializable {
 	private String mobileNumber;
 	private String nationality;
 
-	public Client(Long id, ClientPriorityClass priority, ClientGender gender, ClientName first, ClientLocation location,
-			ClientCoordinates coordinates, ClientTimeZone clientTimeZone, String email, Instant birthday, Instant registered,
-			String telephoneNumber, String mobileNumber, String nationality) {
+	public Client(Long id, ClientPriority priority, ClientGender gender, ClientName first, ClientLocation location,
+			ClientCoordinates coordinates, ClientTimeZone clientTimeZone, String email, Instant birthday,
+			Instant registered, String telephoneNumber, String mobileNumber, String nationality) {
 		this.id = id;
 		this.priority = priority;
 		this.gender = gender;
@@ -62,6 +80,10 @@ public class Client implements Serializable {
 
 	}
 
+	public Client(ClientDto client) {
+
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -70,11 +92,11 @@ public class Client implements Serializable {
 		this.id = id;
 	}
 
-	public ClientPriorityClass getPriority() {
+	public ClientPriority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(ClientPriorityClass priority) {
+	public void setPriority(ClientPriority priority) {
 		this.priority = priority;
 	}
 
@@ -166,6 +188,9 @@ public class Client implements Serializable {
 		this.nationality = nationality;
 	}
 
+	public ClientRegion getRegion() {
+		return region;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

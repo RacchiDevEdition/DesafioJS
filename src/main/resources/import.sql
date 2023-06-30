@@ -1,0 +1,1 @@
+INSERT INTO tb_client(birthday,tb_client_time_zone,tb_client_coordinates,email,gender,tb_client_location,mobile_number,tb_client_name,nationality,priority,region,registered,telephone_number,id) VALUES (1, 'Maria', 'maria@gmail.com');
